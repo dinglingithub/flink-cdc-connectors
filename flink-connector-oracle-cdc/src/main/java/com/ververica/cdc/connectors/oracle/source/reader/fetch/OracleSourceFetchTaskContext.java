@@ -97,7 +97,8 @@ public class OracleSourceFetchTaskContext extends JdbcSourceFetchTaskContext {
                         .getDbzConfiguration()
                         .getString(EmbeddedFlinkDatabaseHistory.DATABASE_HISTORY_INSTANCE_NAME),
                 sourceSplitBase.getTableSchemas().values());
-        this.databaseSchema = OracleUtils.createOracleDatabaseSchema(connectorConfig);
+        // Share existing OracleConnection
+        this.databaseSchema = OracleUtils.createOracleDatabaseSchema(connectorConfig, this.connection);
         // todo logMiner or xStream
         this.offsetContext =
                 loadStartingOffsetState(
